@@ -1,0 +1,1934 @@
+{
+  "name": "Public GTM Content & Lifecycle Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-opus-5",
+          "mode": "list",
+          "cachedResultName": "Claude Opus 5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.5,
+      "position": [
+        1488,
+        -144
+      ],
+      "id": "0b4ebbb5-c070-4c31-a23e-bdff2c2ecfa2",
+      "name": "Anthropic Chat Model"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1312,
+        208
+      ],
+      "id": "9af34beb-c2ec-416a-8b02-4f2e81f3ee9e",
+      "name": "Wait"
+    },
+    {
+      "parameters": {
+        "content": "SOURCE\n\nPublic market signals, releases, and operator context",
+        "height": 96,
+        "width": 262,
+        "color": "#FFF942"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        128,
+        -432
+      ],
+      "id": "a0c96000-85ec-410f-ac67-4c98974b2c9b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "VERIFY\n\nOnly named-source signals move forward",
+        "height": 96,
+        "width": 230,
+        "color": "#FFF942"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1008,
+        -432
+      ],
+      "id": "ada8d80a-6459-48b9-81c8-a971e4479af3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "DISTRIBUTE + LOG\nLinkedIn, email, and CRM-ready outcomes are recorded",
+        "height": 80,
+        "width": 294,
+        "color": "#FFF942"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        448
+      ],
+      "id": "341b376f-62e0-4430-af66-d4fdc34aa539",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "APPROVE\nNothing publishes without human review",
+        "height": 80,
+        "width": 230,
+        "color": "#FFF942"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        656,
+        112
+      ],
+      "id": "8e6f5d78-9f85-42d3-acb8-98efc4afa8df",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"draft_id\": { \"type\": \"string\" },\n    \"company\": { \"type\": \"string\" },\n    \"signal\": { \"type\": \"string\" },\n    \"channel\": { \"type\": \"string\" },\n    \"draft_subject\": { \"type\": \"string\" },\n    \"draft_body\": { \"type\": \"string\" },\n    \"gtm_takeaway\": { \"type\": \"string\" },\n    \"why_it_matters\": { \"type\": \"string\" },\n    \"source_url\": { \"type\": \"string\" },\n    \"source_verified\": { \"type\": \"string\" },\n    \"confidence\": { \"type\": \"string\" },\n    \"approval_status\": { \"type\": \"string\" },\n    \"reviewer_note\": { \"type\": \"string\" },\n    \"approved_at\": { \"type\": \"string\" },\n    \"processed_status\": { \"type\": \"string\" },\n    \"processed_at\": { \"type\": \"string\" }\n  },\n  \"required\": [\n    \"draft_id\",\n    \"company\",\n    \"signal\",\n    \"channel\",\n    \"draft_subject\",\n    \"draft_body\",\n    \"source_url\",\n    \"source_verified\",\n    \"confidence\",\n    \"approval_status\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1680,
+        -144
+      ],
+      "id": "48d7e4af-761c-45b2-975f-ff48e67ea68f",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "url": "https://www.eia.gov/rss/todayinenergy.xml",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        -320
+      ],
+      "id": "40656a8b-5cac-4289-a2a7-dd542b31409a",
+      "name": "Read Market Source"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -320
+      ],
+      "id": "8d9bc4b0-ce76-4f0a-b835-6ef80519c5e5",
+      "name": "Limit Demo Intake"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5e343c47-7564-4cf8-bb27-34d69c3c8e18",
+              "name": "source_url",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "ce61b46c-a699-4577-b904-9329eed891d7",
+              "name": "source_name",
+              "value": "=EIA Today in Energy",
+              "type": "string"
+            },
+            {
+              "id": "f22046e4-436b-4f21-8cbb-808d6b8ae537",
+              "name": "published_date",
+              "value": "={{ $json.isoDate.slice(0, 10) }}",
+              "type": "string"
+            },
+            {
+              "id": "a54be59f-43a1-4be3-b827-0afef299736c",
+              "name": "company",
+              "value": "EIA",
+              "type": "string"
+            },
+            {
+              "id": "213e8aa2-5c04-4dd3-895d-3f3af2b74c75",
+              "name": "topic",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "5d1e8266-9720-4775-b201-4ee97edad11e",
+              "name": "signal_type",
+              "value": "Industry Signal",
+              "type": "string"
+            },
+            {
+              "id": "967f5036-1da3-4810-b639-562bc61a8a4f",
+              "name": "summary",
+              "value": "={{ $json.contentSnippet || $json.content }}",
+              "type": "string"
+            },
+            {
+              "id": "15fc336e-0678-45c3-bb1a-e8c8f7b5d309",
+              "name": "source_quality",
+              "value": "High",
+              "type": "string"
+            },
+            {
+              "id": "30c6d6ab-76c6-47f5-8017-6e6e37780fbf",
+              "name": "status",
+              "value": "New",
+              "type": "string"
+            },
+            {
+              "id": "4e9a1d31-e197-40ce-adec-18d848f7b1a8",
+              "name": "is_demo_data",
+              "value": "FALSE",
+              "type": "string"
+            },
+            {
+              "id": "1b69aa46-9842-4d74-ba74-9d24056005cb",
+              "name": "source_verified",
+              "value": "Yes",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -320
+      ],
+      "id": "e3fe4978-19d8-4c2e-87df-f22745b84097",
+      "name": "Normalize GTM Signal"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "=source_url",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        832,
+        -320
+      ],
+      "id": "befaaa8e-a267-4576-9962-4faf267fcf5b",
+      "name": "Deduplicate Signals"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "source_signals",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "source_url"
+          ],
+          "schema": [
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source_name",
+              "displayName": "source_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "published_date",
+              "displayName": "published_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "topic",
+              "displayName": "topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "signal_type",
+              "displayName": "signal_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_quality",
+              "displayName": "source_quality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "is_demo_data",
+              "displayName": "is_demo_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source_verified",
+              "displayName": "source_verified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1264,
+        -320
+      ],
+      "id": "3be4b356-90aa-48c3-857b-36dc83c7b5d3",
+      "name": "Save Source Evidence"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const props = $json.output?.properties ?? {};\n\nconst value = (key, fallback = '') =>\n  String(props[key]?.type ?? $json[key] ?? fallback).trim();\n\nreturn {\n  json: {\n    draft_id: value('draft_id'),\n    company: value('company'),\n    signal: value('signal'),\n    channel: value('channel', 'LinkedIn'),\n    draft_subject: value('draft_subject'),\n    draft_body: value('draft_body'),\n    gtm_takeaway: value('gtm_takeaway'),\n    why_it_matters: value('why_it_matters'),\n    source_url: value('source_url').replace(/^\\[|\\]$/g, ''),\n    source_verified: value('source_verified', 'Yes'),\n    confidence: value('confidence', 'High'),\n    approval_status: value('approval_status', 'Pending'),\n    reviewer_note: value('reviewer_note'),\n    approved_at: value('approved_at'),\n    processed_status: value('processed_status'),\n    processed_at: value('processed_at'),\n  },\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        -320
+      ],
+      "id": "f9db6e97-81e0-476a-b2df-ee9a1e4762fc",
+      "name": "Draft From Cited Inputs"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "approval_queue",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "draft_id": "={{ $json.draft_id }}",
+            "company": "={{ $json.company }}",
+            "signal": "={{ $json.signal }}",
+            "channel": "={{ $json.channel }}",
+            "draft_subject": "={{ $json.draft_subject }}",
+            "draft_body": "={{ $json.draft_body }}",
+            "gtm_takeaway": "={{ $json.gtm_takeaway }}",
+            "why_it_matters": "={{ $json.why_it_matters }}",
+            "source_url": "={{ $json.source_url }}",
+            "source_verified": "={{ $json.source_verified }}",
+            "confidence": "={{ $json.confidence }}",
+            "approval_status": "={{ $json.approval_status }}",
+            "reviewer_note": "={{ $json.reviewer_note }}",
+            "approved_at": "={{ $json.approved_at }}",
+            "processed_status": "={{ $json.processed_status }}",
+            "processed_at": "={{ $json.processed_at }}"
+          },
+          "matchingColumns": [
+            "draft_id"
+          ],
+          "schema": [
+            {
+              "id": "draft_id",
+              "displayName": "draft_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "signal",
+              "displayName": "signal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "draft_subject",
+              "displayName": "draft_subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "draft_body",
+              "displayName": "draft_body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "gtm_takeaway",
+              "displayName": "gtm_takeaway",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "why_it_matters",
+              "displayName": "why_it_matters",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_verified",
+              "displayName": "source_verified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "confidence",
+              "displayName": "confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approval_status",
+              "displayName": "approval_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviewer_note",
+              "displayName": "reviewer_note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approved_at",
+              "displayName": "approved_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "processed_status",
+              "displayName": "processed_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "processed_at",
+              "displayName": "processed_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2000,
+        -320
+      ],
+      "id": "08f6b309-f82c-436a-b1ee-67bed064dd64",
+      "name": "Write To Approval Queue"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "approval_queue",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "approval_status",
+              "lookupValue": "Approved"
+            },
+            {
+              "lookupColumn": "processed_status"
+            }
+          ]
+        },
+        "combineFilters": "AND",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        208
+      ],
+      "id": "a28d884e-3459-4cf6-9bfe-f2f74189c792",
+      "name": "Read Approved Drafts",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1d952f42-f161-48f2-8b59-fcaa18f515ae",
+              "leftValue": "={{ String($json.approval_status).trim().toLowerCase() === \"approved\" }}",
+              "rightValue": "approved",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "210ea79a-1fe9-41a3-886d-25f9a23fa6c9",
+              "leftValue": "={{ !String($json.processed_status || \"\").trim() }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": "={{ false }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        736,
+        208
+      ],
+      "id": "586ced98-8d0f-4088-af67-b6e2c88a637f",
+      "name": "Approval Gate"
+    },
+    {
+      "parameters": {
+        "sendTo": "you@example.com",
+        "subject": "={{ $json.draft_subject }}",
+        "message": "={{ $json.draft_body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1136,
+        208
+      ],
+      "id": "f1c589e6-8a6e-4008-935d-70cc4ee2853c",
+      "name": "Send Approved Email"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1630e37e-6028-4d3b-bc94-e8946954e06f",
+              "leftValue": "={{ $json.source_url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b43c873e-0ea4-4032-823b-9584784c5d19",
+              "leftValue": "={{ $json.summary }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "32b19f9f-fead-4e74-942c-b8167a26c0cc",
+              "leftValue": "={{ $json.company }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "3fbc7442-a832-4ff4-b08a-b7a472ca5324",
+              "leftValue": "={{ $json.source_quality }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "bf6ddbd6-1537-4a32-8709-ac09f7d50a11",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=New",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "b695606d-a457-4430-a708-5b2ab59efbb4",
+              "leftValue": "={{ [\"Yes\", \"Demo only\"].includes(String($json.source_verified).trim()) }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1072,
+        -320
+      ],
+      "id": "9686bf69-7ba7-4c37-9d90-92f36eb13e76",
+      "name": "Require Named Source"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "lifecycle_log",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "journey_stage": "suppressed_missing_source",
+            "action_taken": "No draft created",
+            "outcome": "Suppressed because source evidence was incomplete",
+            "analytics_event": "source_rejected",
+            "hubspot_status": "not_logged"
+          },
+          "matchingColumns": [
+            "company"
+          ],
+          "schema": [
+            {
+              "id": "event_time",
+              "displayName": "event_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "action_taken",
+              "displayName": "action_taken",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "journey_stage",
+              "displayName": "journey_stage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hubspot_status",
+              "displayName": "hubspot_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "analytics_event",
+              "displayName": "analytics_event",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "outcome",
+              "displayName": "outcome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source_verified",
+              "displayName": "source_verified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "approved_for_distribution",
+              "displayName": "approved_for_distribution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "distribution_logged",
+              "displayName": "distribution_logged",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "crm_log_ready",
+              "displayName": "crm_log_ready",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source_name",
+              "displayName": "source_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "published_date",
+              "displayName": "published_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "topic",
+              "displayName": "topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "signal_type",
+              "displayName": "signal_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source_quality",
+              "displayName": "source_quality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "is_demo_data",
+              "displayName": "is_demo_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1264,
+        -160
+      ],
+      "id": "76684330-8f37-4927-a09c-f1dec1448d34",
+      "name": "Log Suppressed Signal"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "lifecycle_log",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "event_time": "={{ $now }}",
+            "run_id": "={{ $json.draft_id }}",
+            "channel": "LinkedIn",
+            "company": "={{ $json.company }}",
+            "action_taken": "Draft approved and ready for LinkedIn review",
+            "journey_stage": "approved_for_distribution",
+            "hubspot_status": "Not connected - portfolio demo",
+            "analytics_event": "linkedin_draft_ready",
+            "outcome": "Ready for manual publish",
+            "source_url": "={{ $json.source_url }}",
+            "source_verified": "={{ $json.source_verified }}",
+            "notes": "Draft stays human-reviewed. Nothing publishes automatically."
+          },
+          "matchingColumns": [
+            "run_id"
+          ],
+          "schema": [
+            {
+              "id": "event_time",
+              "displayName": "event_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "action_taken",
+              "displayName": "action_taken",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "journey_stage",
+              "displayName": "journey_stage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hubspot_status",
+              "displayName": "hubspot_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "analytics_event",
+              "displayName": "analytics_event",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "outcome",
+              "displayName": "outcome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_verified",
+              "displayName": "source_verified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approved_for_distribution",
+              "displayName": "approved_for_distribution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "distribution_logged",
+              "displayName": "distribution_logged",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crm_log_ready",
+              "displayName": "crm_log_ready",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_name",
+              "displayName": "source_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "published_date",
+              "displayName": "published_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "topic",
+              "displayName": "topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "signal_type",
+              "displayName": "signal_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source_quality",
+              "displayName": "source_quality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "is_demo_data",
+              "displayName": "is_demo_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1328,
+        400
+      ],
+      "id": "8057799f-e8b6-43ea-bd1f-839c8de027e6",
+      "name": "Record LinkedIn Draft Ready"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "lifecycle_log",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "event_time": "={{ $now }}",
+            "run_id": "={{ $json.draft_id }}",
+            "company": "={{ $json.company }}",
+            "channel": "Email",
+            "action_taken": "Approved draft prepared for email follow-up",
+            "journey_stage": "distribution_logged",
+            "hubspot_status": "Not connected - portfolio demo",
+            "analytics_event": "email_send_ready",
+            "outcome": "Logged as ready, not automatically sent",
+            "source_url": "={{ $json.source_url }}",
+            "source_verified": "={{ $json.source_verified }}",
+            "notes": "No live email sent in portfolio demo"
+          },
+          "matchingColumns": [
+            "run_id"
+          ],
+          "schema": [
+            {
+              "id": "event_time",
+              "displayName": "event_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "action_taken",
+              "displayName": "action_taken",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "journey_stage",
+              "displayName": "journey_stage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hubspot_status",
+              "displayName": "hubspot_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "analytics_event",
+              "displayName": "analytics_event",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "outcome",
+              "displayName": "outcome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_verified",
+              "displayName": "source_verified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "approved_for_distribution",
+              "displayName": "approved_for_distribution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "distribution_logged",
+              "displayName": "distribution_logged",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crm_log_ready",
+              "displayName": "crm_log_ready",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_name",
+              "displayName": "source_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "published_date",
+              "displayName": "published_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "topic",
+              "displayName": "topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "signal_type",
+              "displayName": "signal_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source_quality",
+              "displayName": "source_quality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "is_demo_data",
+              "displayName": "is_demo_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1488,
+        208
+      ],
+      "id": "50b6d8da-6e03-46ef-9ba2-ce7f091439cc",
+      "name": "Record Email Send Ready"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -32,
+        -320
+      ],
+      "id": "f553d9e1-9ef2-456a-b02b-1705237d560d",
+      "name": "Run GTM Engine Demo"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are creating a human-reviewed GTM content draft from one verified market signal.\n\nUse only the source data provided below. Do not invent facts, customers, numbers, quotes, partnerships, product details, or outcomes. If the source does not support a claim, do not include it.\n\nThe goal is to create a concise LinkedIn-ready draft that shows how a GTM/operator would turn a market signal into a practical point of view.\n\nSource data:\n- Company: {{ $json.company }}\n- Topic: {{ $json.topic }}\n- Signal type: {{ $json.signal_type }}\n- Summary: {{ $json.summary }}\n- Source name: {{ $json.source_name }}\n- Source URL: {{ $json.source_url }}\n- Published date: {{ $json.published_date }}\n- Source quality: {{ $json.source_quality }}\n- Source verified: {{ $json.source_verified }}\n\nCreate one draft with:\n1. A clear subject/title.\n2. A concise LinkedIn post body.\n3. One operational GTM takeaway.\n4. One reason this signal matters.\n5. A source citation using the source name and URL.\n\nVoice:\n- Clear, direct, operator-minded.\n- No hype.\n- No AI-sounding language.\n- No exaggerated claims.\n- No “unlock,” “transform,” “revolutionize,” “game-changing,” or similar language.\n- Do not mention that this was written by AI.\n\nReturn only valid JSON matching the required schema.",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Set: - draft_id to company + published_date + signal_type, lowercase with spaces replaced by hyphens. - channel to LinkedIn. - signal to the topic. - confidence to High if source_verified is Yes and source_quality is High. Otherwise Medium. - approval_status to Pending. - reviewer_note to an empty string. - approved_at to an empty string. - processed_status to an empty string. - processed_at to an empty string."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1488,
+        -320
+      ],
+      "id": "302a46e5-48d9-4075-8e5e-7a3357ad7a17",
+      "name": "AI Model"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        208
+      ],
+      "id": "bd5bc59c-035c-4d96-b252-f27b2f596b72",
+      "name": "Scheduled Approval Check"
+    },
+    {
+      "parameters": {
+        "content": "DRAFT\nAI turns cited inputs into review-ready GTM content",
+        "height": 96,
+        "width": 262,
+        "color": "#FFF942"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        -432
+      ],
+      "id": "b731dce4-c324-4385-93d7-f04fce0bcc2b",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        944,
+        208
+      ],
+      "id": "5d27e3ad-7c92-4a6d-9081-eddcc87ed5e5",
+      "name": "Wait."
+    },
+    {
+      "parameters": {
+        "postAs": "organization",
+        "organization": "YOUR_LINKEDIN_ORG_ID",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        400
+      ],
+      "id": "f9ad6596-fa37-4c67-84d4-5f46b38624ea",
+      "name": "LinkedIn Draft Ready."
+    },
+    {
+      "parameters": {
+        "resource": "engagement",
+        "type": "email",
+        "metadata": {},
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1696,
+        208
+      ],
+      "id": "65aabe2b-700a-4607-a83a-eb45b5ec8287",
+      "name": "HubSpot CRM Log Ready"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Model",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Record Email Send Ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Model",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Market Source": {
+      "main": [
+        [
+          {
+            "node": "Limit Demo Intake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit Demo Intake": {
+      "main": [
+        [
+          {
+            "node": "Normalize GTM Signal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize GTM Signal": {
+      "main": [
+        [
+          {
+            "node": "Deduplicate Signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deduplicate Signals": {
+      "main": [
+        [
+          {
+            "node": "Require Named Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Source Evidence": {
+      "main": [
+        [
+          {
+            "node": "AI Model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Draft From Cited Inputs": {
+      "main": [
+        [
+          {
+            "node": "Write To Approval Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write To Approval Queue": {
+      "main": [
+        []
+      ]
+    },
+    "Read Approved Drafts": {
+      "main": [
+        [
+          {
+            "node": "Approval Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval Gate": {
+      "main": [
+        [
+          {
+            "node": "Wait.",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Approved Email": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Require Named Source": {
+      "main": [
+        [
+          {
+            "node": "Save Source Evidence",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Suppressed Signal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record LinkedIn Draft Ready": {
+      "main": [
+        []
+      ]
+    },
+    "Run GTM Engine Demo": {
+      "main": [
+        [
+          {
+            "node": "Read Market Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Model": {
+      "main": [
+        [
+          {
+            "node": "Draft From Cited Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scheduled Approval Check": {
+      "main": [
+        [
+          {
+            "node": "Read Approved Drafts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Email Send Ready": {
+      "main": [
+        []
+      ]
+    },
+    "Wait.": {
+      "main": [
+        [
+          {
+            "node": "Send Approved Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "LinkedIn Draft Ready.",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn Draft Ready.": {
+      "main": [
+        [
+          {
+            "node": "Record LinkedIn Draft Ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "nodeGroups": [],
+  "tags": [
+    {
+      "name": "gtm-system"
+    },
+    {
+      "name": "human-approval"
+    },
+    {
+      "name": "demo-safe"
+    },
+    {
+      "name": "portfolio"
+    }
+  ]
+}
