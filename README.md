@@ -62,11 +62,17 @@ To approve a draft: open `approval_queue`, set `approval_status` to `Approved`, 
 4. Set `sendTo` in Send Approved Email to your own address.
 5. Run Track 1 once by hand, approve a row in the sheet, then run Track 2.
 
-Both triggers are set to every minute. Keep the workflow inactive between demos and start runs deliberately.
+Both schedule triggers run every 5 minutes, n8n's default minutes interval; the export omits values that equal a default. Keep the workflow inactive between demos and start runs deliberately.
 
 ## What was removed from the export
 
 Credential references, webhook IDs, the spreadsheet ID and cached URLs, the operator's email address, the LinkedIn organization ID, the workflow and instance IDs, and tag IDs.
+
+## Differences from the running instance
+
+Two corrections were made in this export and are still to be mirrored in the live workflow: Read Approved Drafts and Approval Gate combine their two checks with AND (the running copy used OR, which let a Pending row through whenever `processed_status` was blank), and an accidental `Require Named Source` column was removed from Normalize GTM Signal and from the sheet schemas.
+
+Known limitation in both copies: nothing writes `processed_status` back after a send, so an approved row is picked up again on the next run until `processed_status` is filled in by hand. A Google Sheets update on `draft_id` after Record Email Send Ready closes that loop.
 
 ## License
 
